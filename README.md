@@ -1,2 +1,0 @@
-# mobile
-The mobile app
