@@ -1,4 +1,4 @@
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, Button } from 'react-native';
 
 import { useAuth } from '../../hooks';
 
@@ -12,15 +12,15 @@ const styles = StyleSheet.create({
 });
 
 export const LoginScreen = () => {
-  const { logIn } = useAuth();
+  const { login } = useAuth();
 
   const logInHandler = () => {
-    logIn('local');
+    login('local');
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Button title="Login" onPress={logInHandler} />
-    </View>
+    </SafeAreaView>
   );
 };

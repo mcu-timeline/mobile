@@ -1,1 +1,1 @@
-export { default } from './src';
+export { App as default } from './src';

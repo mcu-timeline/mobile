@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+
+import { useAuth } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,8 +11,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const HomeScreen = () => (
-  <View style={styles.container}>
-    <Text>HOME SCREEN</Text>
-  </View>
-);
+export const HomeScreen = () => {
+  const { logout } = useAuth();
+
+  return (
+    <View style={styles.container}>
+      <Text>HOME SCREEN</Text>
+      <Button title="Logout" onPress={logout} />
+    </View>
+  );
+};
