@@ -1,4 +1,4 @@
-import { Component, ComponentType, ReactNode } from 'react';
+import { Component, ComponentType } from 'react';
 import { Animated, PanResponder, PanResponderInstance } from 'react-native';
 import { SCREEN_WIDTH } from '../../helpers';
 
