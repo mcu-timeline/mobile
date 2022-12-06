@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, Button } from 'react-native';
 
+import { MoviesStack } from '../../containers/MoviesStack';
 import { useAuth } from '../../hooks';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
 });
@@ -15,9 +16,9 @@ export const HomeScreen = () => {
   const { logout } = useAuth();
 
   return (
-    <View style={styles.container}>
-      <Text>HOME SCREEN</Text>
+    <SafeAreaView style={styles.container}>
+      <MoviesStack />
       <Button title="Logout" onPress={logout} />
-    </View>
+    </SafeAreaView>
   );
 };
