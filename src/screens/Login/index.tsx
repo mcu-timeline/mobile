@@ -1,26 +1,8 @@
-import { StyleSheet, SafeAreaView, Button } from 'react-native';
+import { Layout } from '../../components/Layout';
+import { LoginForm } from '../../components/LoginForm';
 
-import { useAuth } from '../../hooks';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export const LoginScreen = () => {
-  const { login } = useAuth();
-
-  const logInHandler = () => {
-    login('local');
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <Button title="Login" onPress={logInHandler} />
-    </SafeAreaView>
-  );
-};
+export const LoginScreen = () => (
+  <Layout withMenu>
+    <LoginForm />
+  </Layout>
+);
