@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 import { useTheme } from '../../hooks';
 import { FCC } from '../../types';
@@ -9,13 +10,12 @@ type Props = {
 };
 
 export const Layout: FCC<Props> = ({ children, withMenu = false }) => {
-  const colorPallette = useTheme();
+  const colorPalette = useTheme();
   const styles = useMemo(
     () =>
       StyleSheet.create({
         container: {
           flex: 1,
-          backgroundColor: colorPallette.background,
           alignItems: 'center',
           justifyContent: 'center',
         },
@@ -23,13 +23,15 @@ export const Layout: FCC<Props> = ({ children, withMenu = false }) => {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
+          width: '100%',
         },
       }),
-    [colorPallette],
+    [colorPalette],
   );
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.main}>{children}</View>
       {withMenu ? (
         <View>

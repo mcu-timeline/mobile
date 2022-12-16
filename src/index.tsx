@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { Auth0Provider } from 'react-native-auth0';
 
 import { ApolloClientProvider } from './containers/ApolloClient';
@@ -14,7 +13,6 @@ export const App = () => (
         <AuthContextProvider>
           <ProgressContextProvider>
             <Router />
-            <StatusBar style="auto" />
           </ProgressContextProvider>
         </AuthContextProvider>
       </Auth0Provider>

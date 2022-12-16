@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 import { Appearance } from 'react-native';
 
-import { colorPallette, ColorPallette } from '../../helpers';
+import { colorPalette, ColorPalette } from '../../helpers';
 
 const colorScheme = Appearance.getColorScheme() || 'light';
 
-const initialContext: ColorPallette = colorPallette[colorScheme];
+const initialContext: ColorPalette = colorPalette[colorScheme];
 
-export const ThemeContext = createContext<ColorPallette>(initialContext);
+export const ThemeContext = createContext<ColorPalette>(initialContext);

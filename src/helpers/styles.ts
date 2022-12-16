@@ -7,10 +7,10 @@ const addTransparency = (color: string, opacity: number): string => {
 
 const colors = {
   dark: {
-    primary: '#003F5C',
-    secondary: '#00608C',
-    accent: '#CD3F5C',
-    tertiary: '#00605C',
+    primary: '#5E81C5',
+    secondary: '#5A5673',
+    accent: '#F2F1DF',
+    tertiary: '#7F99CA',
   },
   light: {
     primary: '#0070A3',
@@ -22,17 +22,21 @@ const colors = {
   white: '#FFFFFF',
 };
 
-export type ColorPallette = Record<'background' | 'text' | 'inputBackground', string>;
+export type Keys = 'background' | 'text' | 'inputBackground' | 'buttonPrimary';
 
-export const colorPallette: Record<'light' | 'dark', ColorPallette> = {
+export type ColorPalette = Record<Keys, string>;
+
+export const colorPalette: Record<'light' | 'dark', ColorPalette> = {
   dark: {
     background: colors.dark.primary,
     text: colors.white,
     inputBackground: colors.dark.secondary,
+    buttonPrimary: colors.dark.primary,
   },
   light: {
     background: colors.white,
     text: colors.black,
     inputBackground: addTransparency(colors.light.secondary, 30),
+    buttonPrimary: colors.light.primary,
   },
 };

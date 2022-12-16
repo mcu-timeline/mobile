@@ -1,8 +1,23 @@
 import { FC } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { Button } from '../Button';
 import { useAuth } from '../../hooks';
 import { USER } from '../../helpers';
+import { Separator } from '../Separator';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+  main: {
+    height: '35%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+});
 
 export const LoginForm: FC = () => {
   const { login } = useAuth();
@@ -16,9 +31,16 @@ export const LoginForm: FC = () => {
   };
 
   return (
-    <View>
-      <Button title="Login" onPress={loginRemote} />
-      <Button title="Continue without account" onPress={loginLocal} />
+    <View style={styles.container}>
+      <View style={styles.main}>
+        <Button onPress={loginRemote} variant="primary">
+          Log in
+        </Button>
+        <Separator>or</Separator>
+        <Button onPress={loginLocal} variant="secondary">
+          Continue without account
+        </Button>
+      </View>
     </View>
   );
 };
