@@ -25,11 +25,22 @@ export const ProgressContextLocalProvider: FCC = ({ children }) => {
     [progressContext.setData],
   );
 
+  const setActiveTimeline = useCallback(
+    async (id: string, callback?: () => void) => {
+      await progressContext.setData({ id: null, activeTimeline: id });
+      if (callback) {
+        callback();
+      }
+    },
+    [progressContext.setData],
+  );
+
   const context = useMemo(
     () => ({
       currentMovieId: progressContext.data ? progressContext.data.id : null,
       activeTimeline: progressContext.data ? progressContext.data.activeTimeline : null,
       isLoading: progressContext.isLoading,
+      setActiveTimeline,
       setCurrentMovieId,
     }),
     [progressContext],

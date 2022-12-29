@@ -1,57 +1,33 @@
 import { useCallback, useMemo } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
-import { FCC, UserProgress } from '../../types';
+import { FCC } from '../../types';
 
 import { ProgressContext } from './context';
-
-const GET_PROGRESS = gql`
-  query {
-    getUserProgress {
-      id
-      userId
-      activeTimeline
-      currentMovieId
-    }
-  }
-`;
-
-const UPDATE_PROGRESS = gql`
-  mutation ($data: UpdateCurrentMovieInput) {
-    updateCurrentMovie(updateCurrentMovieInput: $data) {
-      id
-      userId
-      activeTimeline
-      currentMovieId
-    }
-  }
-`;
-
-type Params = {
-  data: {
-    activeTimelineId: string;
-    currentMovieId: string;
-  };
-};
-
-type QueryResponse = {
-  getUserProgress: UserProgress;
-};
-
-type MutationResponse = {
-  updateCurrentMovie: UserProgress;
-};
+import {
+  GET_PROGRESS,
+  Response,
+  UpdateCurrentMovieParams,
+  UPDATE_CURRENT_MOVIE,
+  UpsertActiveTimelineParams,
+  UPSERT_ACTIVE_TIMELINE,
+} from './queries';
 
 export const ProgressContextRemoteProvider: FCC = ({ children }) => {
-  const { data, loading } = useQuery<QueryResponse>(GET_PROGRESS);
-  const [mutate] = useMutation<MutationResponse, Params>(UPDATE_PROGRESS);
+  const { data, loading } = useQuery<Response<'getUserProgress'>>(GET_PROGRESS);
+  const [mutateCurrentMovieId] = useMutation<Response<'updateCurrentMovie'>, UpdateCurrentMovieParams>(
+    UPDATE_CURRENT_MOVIE,
+  );
+  const [mutateActiveTimeline] = useMutation<Response<'upsertActiveTimeline'>, UpsertActiveTimelineParams>(
+    UPSERT_ACTIVE_TIMELINE,
+  );
 
   const setCurrentMovieId = useCallback(
     (id: string) => {
       if (!data || !data.getUserProgress.activeTimeline) {
         return;
       }
-      mutate({
+      mutateCurrentMovieId({
         variables: {
           data: {
             currentMovieId: id,
@@ -68,7 +44,21 @@ export const ProgressContextRemoteProvider: FCC = ({ children }) => {
         },
       });
     },
-    [data, mutate],
+    [data, mutateCurrentMovieId],
+  );
+
+  const setActiveTimeline = useCallback(
+    (timeline: string, callback: () => void) => {
+      mutateActiveTimeline({
+        variables: {
+          data: {
+            activeTimelineId: timeline,
+          },
+        },
+        onCompleted: callback,
+      });
+    },
+    [mutateActiveTimeline],
   );
 
   const context = useMemo(() => {
@@ -79,6 +69,7 @@ export const ProgressContextRemoteProvider: FCC = ({ children }) => {
       currentMovieId: currentMovieId ? currentMovieId : null,
       activeTimeline: activeTimeline ? activeTimeline : null,
       isLoading: loading,
+      setActiveTimeline,
       setCurrentMovieId,
     };
   }, [data, setCurrentMovieId, loading]);
