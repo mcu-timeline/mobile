@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import { SCREEN_WIDTH } from '../../helpers';
 
 type Props = {
-  item: { name: string; id: string };
+  item: { name: string; id: string } | null;
   width?: number;
 };
 
@@ -20,10 +20,16 @@ const cardStyles = {
   borderRadius: 20,
 } as const;
 
-export const Card: FC<Props> = ({ item, width = SCREEN_WIDTH }) => (
-  <View style={styles}>
-    <View style={cardStyles}>
-      <Text>{item.name}</Text>
+export const Card: FC<Props> = ({ item, width = SCREEN_WIDTH }) => {
+  if (!item) {
+    return <View style={styles} />;
+  }
+
+  return (
+    <View style={styles}>
+      <View style={cardStyles}>
+        <Text>{item.name}</Text>
+      </View>
     </View>
-  </View>
-);
+  );
+};
