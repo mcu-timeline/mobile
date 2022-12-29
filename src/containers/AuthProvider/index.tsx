@@ -30,7 +30,8 @@ export const AuthContextProvider: FCC = ({ children }) => {
         case USER.TYPE.LOCAL:
           return authContext.setData({ name: 'Anonymous' });
         case USER.TYPE.REMOTE:
-          return auth0Context.authorize();
+          // TODO: get audience from config
+          return auth0Context.authorize({ audience: 'http://franchise-tracker.app/frontend-api' });
       }
     },
     [type, authContext.setData, auth0Context.authorize],
@@ -48,7 +49,7 @@ export const AuthContextProvider: FCC = ({ children }) => {
   const refresh = useCallback(() => {
     switch (type) {
       case USER.TYPE.LOCAL:
-        return;
+        return null;
       case USER.TYPE.REMOTE:
         return auth0Context.getCredentials();
     }

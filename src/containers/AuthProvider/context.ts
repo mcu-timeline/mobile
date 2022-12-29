@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { Credentials } from 'react-native-auth0';
 
 import { USER } from '../../helpers';
 
@@ -14,7 +15,7 @@ type AuthContext = {
   isLoading: boolean;
   login: (type: UserType) => void;
   logout: () => void;
-  refresh: () => void;
+  refresh: () => null | Promise<Credentials>;
 };
 
 const initialContext: AuthContext = {
@@ -23,7 +24,7 @@ const initialContext: AuthContext = {
   isLoading: true,
   login: () => {},
   logout: () => {},
-  refresh: () => {},
+  refresh: () => null,
 };
 
 export const AuthContext = createContext<AuthContext>(initialContext);
