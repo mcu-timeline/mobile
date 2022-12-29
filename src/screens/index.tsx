@@ -3,11 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { useAuth } from '../hooks';
 
+import { RootStackParamList } from './types';
 import { LoginScreen } from './Login';
 import { HomeScreen } from './Home';
 import { LoadingScreen } from './Loading';
+import { TimelinePickerScreen } from './TimelinePicker';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Router = () => {
   const { isLoading, user } = useAuth();
@@ -22,6 +24,7 @@ export const Router = () => {
         {user ? (
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="TimelinePicker" component={TimelinePickerScreen} />
           </>
         ) : (
           <>
