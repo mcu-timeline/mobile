@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Button } from '../Button';
@@ -14,21 +14,22 @@ const styles = StyleSheet.create({
   },
   main: {
     height: '35%',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    marginBottom: 25,
   },
 });
 
 export const LoginForm: FC = () => {
   const { login } = useAuth();
 
-  const loginLocal = () => {
+  const loginLocal = useCallback(() => {
     login(USER.TYPE.LOCAL);
-  };
+  }, [login]);
 
-  const loginRemote = () => {
+  const loginRemote = useCallback(() => {
     login(USER.TYPE.REMOTE);
-  };
+  }, [login]);
 
   return (
     <View style={styles.container}>
