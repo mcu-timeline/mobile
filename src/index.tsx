@@ -8,14 +8,14 @@ import { Router } from './screens';
 
 export const App = () => (
   <ThemeProvider>
-    <ApolloClientProvider>
-      <Auth0Provider domain={'franchise-tracker.eu.auth0.com'} clientId={'TbimV7cIUwYIcg6apLwVC3wsgAEh6rWs'}>
-        <AuthContextProvider>
+    <Auth0Provider domain={'franchise-tracker.eu.auth0.com'} clientId={'TbimV7cIUwYIcg6apLwVC3wsgAEh6rWs'}>
+      <AuthContextProvider>
+        <ApolloClientProvider>
           <ProgressContextProvider>
             <Router />
           </ProgressContextProvider>
-        </AuthContextProvider>
-      </Auth0Provider>
-    </ApolloClientProvider>
+        </ApolloClientProvider>
+      </AuthContextProvider>
+    </Auth0Provider>
   </ThemeProvider>
 );

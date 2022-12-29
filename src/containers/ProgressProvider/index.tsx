@@ -4,6 +4,7 @@ import { USER } from '../../helpers';
 
 import { ProgressContext, initialContext } from './context';
 import { ProgressContextLocalProvider } from './localProgress';
+import { ProgressContextRemoteProvider } from './remoteProgress';
 
 export const ProgressContextProvider: FCC = ({ children }) => {
   const authContext = useAuth();
@@ -12,7 +13,9 @@ export const ProgressContextProvider: FCC = ({ children }) => {
     return <ProgressContextLocalProvider>{children}</ProgressContextLocalProvider>;
   }
 
-  // TODO: use real Progress API
+  if (authContext.type === USER.TYPE.REMOTE) {
+    return <ProgressContextRemoteProvider>{children}</ProgressContextRemoteProvider>;
+  }
 
   return <ProgressContext.Provider value={initialContext}>{children}</ProgressContext.Provider>;
 };

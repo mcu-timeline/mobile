@@ -7,7 +7,7 @@ import { useAsyncStorage } from '../../hooks';
 import { ProgressContext, Progress } from './context';
 
 const isProgress = (o: any): o is Progress => {
-  return 'id' in o;
+  return 'id' in o && 'activeTimeline' in o;
 };
 
 const parseProgress = jsonParse(isProgress);
@@ -16,13 +16,19 @@ export const ProgressContextLocalProvider: FCC = ({ children }) => {
   const progressContext = useAsyncStorage('@progress', { parser: parseProgress, optimistic: true });
 
   const setCurrentMovieId = useCallback(
-    async (id: string) => progressContext.setData({ id }),
+    async (id: string) => {
+      if (!progressContext.data || !progressContext.data.activeTimeline) {
+        return;
+      }
+      progressContext.setData({ id, activeTimeline: progressContext.data.activeTimeline });
+    },
     [progressContext.setData],
   );
 
   const context = useMemo(
     () => ({
-      currentMovieId: progressContext.data,
+      currentMovieId: progressContext.data ? progressContext.data.id : null,
+      activeTimeline: progressContext.data ? progressContext.data.activeTimeline : null,
       isLoading: progressContext.isLoading,
       setCurrentMovieId,
     }),

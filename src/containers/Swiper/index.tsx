@@ -3,9 +3,9 @@ import { Animated, PanResponder, PanResponderInstance } from 'react-native';
 import { SCREEN_WIDTH } from '../../helpers';
 
 type Props<T> = {
-  currentItem: string;
+  currentItem: string | null;
   setCurrentItem: (id: string) => void;
-  Item: ComponentType<{ item: T }>;
+  Item: ComponentType<{ item: T | null }>;
   items: T[];
 };
 
@@ -24,7 +24,7 @@ export class Swiper<T extends { name: string }> extends Component<Props<T>, Stat
   constructor(props: Props<T>) {
     super(props);
     this.state = {
-      currentItemIndex: props.items.findIndex((item) => item.name === props.currentItem),
+      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.name === props.currentItem) : 0,
     };
     this.position = new Animated.ValueXY({ x: 0, y: 0 });
     this.verticalDrag = new Animated.Value(0);
@@ -84,7 +84,7 @@ export class Swiper<T extends { name: string }> extends Component<Props<T>, Stat
 
   static getDerivedStateFromProps(props: Props<{ name: string }>): State {
     return {
-      currentItemIndex: props.items.findIndex((item) => item.name === props.currentItem),
+      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.name === props.currentItem) : 0,
     };
   }
 
@@ -104,9 +104,9 @@ export class Swiper<T extends { name: string }> extends Component<Props<T>, Stat
           transform: this.position.getTranslateTransform(),
         }}
       >
-        <Item item={items[currentItemIndex - 1]} />
+        <Item item={items[currentItemIndex - 1] || null} />
         <Item item={items[currentItemIndex]} />
-        <Item item={items[currentItemIndex + 1]} />
+        <Item item={items[currentItemIndex + 1] || null} />
       </Animated.View>
     );
   }
