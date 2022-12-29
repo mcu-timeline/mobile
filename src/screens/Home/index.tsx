@@ -23,7 +23,6 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (!isLoading && !activeTimeline) {
-      console.log(isLoading, activeTimeline);
       navigation.replace('TimelinePicker');
     }
   }, [activeTimeline, isLoading, navigation]);
