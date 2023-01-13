@@ -27,15 +27,11 @@ export class Swiper<T extends { id: string }> extends Component<Props<T>, State>
     this.isHorizontalSwipe = false;
     this.panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (_, gestureState) => {
-        switch (true) {
-          case gestureState.dx > 0 || gestureState.dx < 0:
-            this.isHorizontalSwipe = true;
-            return true;
-          case gestureState.dy > 0 || gestureState.dy < 0:
-            return false;
-          default:
-            return false;
+        if (gestureState.dx > 0 || gestureState.dx < 0) {
+          this.isHorizontalSwipe = true;
+          return true;
         }
+        return false;
       },
       onPanResponderMove: (_, gestureState) => {
         if (this.isHorizontalSwipe) {
