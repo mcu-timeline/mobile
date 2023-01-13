@@ -13,62 +13,51 @@ type State = {
   currentItemIndex: number;
 };
 
-export class Swiper<T extends { name: string }> extends Component<Props<T>, State> {
+export class Swiper<T extends { id: string }> extends Component<Props<T>, State> {
   private panResponder: PanResponderInstance;
   private position: Animated.ValueXY;
-  private verticalDrag: Animated.Value;
-  private isDragging: boolean;
   private isHorizontalSwipe: boolean;
-  private isVerticalSwipe: boolean;
 
   constructor(props: Props<T>) {
     super(props);
     this.state = {
-      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.name === props.currentItem) : 0,
+      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.id === props.currentItem) : 0,
     };
     this.position = new Animated.ValueXY({ x: 0, y: 0 });
-    this.verticalDrag = new Animated.Value(0);
-    this.isDragging = false;
     this.isHorizontalSwipe = false;
-    this.isVerticalSwipe = false;
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onPanResponderMove: (evt, gestureState) => {
-        if (this.isDragging) {
-          if (this.isHorizontalSwipe) {
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        if (gestureState.dx > 0 || gestureState.dx < 0) {
+          this.isHorizontalSwipe = true;
+          return true;
+        }
+        return false;
+      },
+      onPanResponderMove: (_, gestureState) => {
+        if (this.isHorizontalSwipe) {
+          if ((gestureState.dx > 0 && this.isFirstItem()) || (gestureState.dx < 0 && this.isLastItem())) {
+            this.position.setValue({ x: 0, y: 0 });
+          } else {
             this.position.setValue({ x: gestureState.dx, y: 0 });
-          } else if (this.isVerticalSwipe) {
-            this.verticalDrag.setValue(Math.max(0, gestureState.dy));
-            // TODO Handle transition to timeline
-          }
-        } else {
-          if (gestureState.dx > 10 || gestureState.dx < -10) {
-            this.isDragging = true;
-            this.isHorizontalSwipe = true;
-          } else if (gestureState.dy > 10) {
-            this.isDragging = true;
-            this.isVerticalSwipe = true;
           }
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        this.isDragging = false;
         this.isHorizontalSwipe = false;
-        this.isVerticalSwipe = false;
-        if (gestureState.dx > 120) {
+        if (gestureState.dx > 120 && !this.isFirstItem()) {
           Animated.spring(this.position, {
             toValue: { x: SCREEN_WIDTH, y: 0 },
             useNativeDriver: true,
           }).start(() => {
-            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex - 1].name);
+            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex - 1].id);
             this.position.setValue({ x: 0, y: 0 });
           });
-        } else if (gestureState.dx < -120) {
+        } else if (gestureState.dx < -120 && !this.isLastItem()) {
           Animated.spring(this.position, {
             toValue: { x: -SCREEN_WIDTH, y: 0 },
             useNativeDriver: true,
           }).start(() => {
-            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex + 1].name);
+            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex + 1].id);
             this.position.setValue({ x: 0, y: 0 });
           });
         } else {
@@ -82,10 +71,18 @@ export class Swiper<T extends { name: string }> extends Component<Props<T>, Stat
     });
   }
 
-  static getDerivedStateFromProps(props: Props<{ name: string }>): State {
+  static getDerivedStateFromProps(props: Props<{ id: string }>): State {
     return {
-      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.name === props.currentItem) : 0,
+      currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.id === props.currentItem) : 0,
     };
+  }
+
+  isFirstItem() {
+    return this.state.currentItemIndex === 0;
+  }
+
+  isLastItem() {
+    return this.state.currentItemIndex === this.props.items.length - 1;
   }
 
   render() {

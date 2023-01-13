@@ -22,7 +22,7 @@ export const ProgressContextLocalProvider: FCC = ({ children }) => {
       }
       progressContext.setData({ id, activeTimeline: progressContext.data.activeTimeline });
     },
-    [progressContext.setData],
+    [progressContext],
   );
 
   const setActiveTimeline = useCallback(
