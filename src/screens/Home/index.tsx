@@ -5,17 +5,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MoviesStack } from '../../containers/MoviesStack';
 import { useAuth, useProgress } from '../../hooks';
 import { RootStackParamList } from '../types';
+import { Layout } from '../../components/Layout';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-  },
-});
 
 export const HomeScreen: FC<Props> = ({ navigation }) => {
   const { logout } = useAuth();
@@ -32,9 +24,8 @@ export const HomeScreen: FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Layout menu={<Button title="Logout" onPress={logout} />}>
       <MoviesStack />
-      <Button title="Logout" onPress={logout} />
-    </SafeAreaView>
+    </Layout>
   );
 };
