@@ -1,22 +1,31 @@
 import { gql, useQuery } from '@apollo/client';
 
-import { Card } from '../../components/Card';
-import { MainContainer } from '../../components/MainContainer';
 import { Swiper } from '../Swiper';
 import { useProgress } from '../../hooks';
+import { Movie } from '../../types';
 
 const GET_MOVIES = gql`
   query ($title: String) {
     timeline(currentlyWatching: $title) {
       id
-      name
+      title
       duration
+      tags
+      image
+      imageHero
+      imageCenter
+      description
+      note
+      characters {
+        name
+        image
+      }
     }
   }
 `;
 
 type Response = {
-  timeline: Array<{ id: string; name: string; duration: string }>;
+  timeline: Movie[];
 };
 
 export const MoviesStack = () => {
@@ -31,9 +40,5 @@ export const MoviesStack = () => {
 
   const movies = data ? data.timeline : previousData?.timeline;
 
-  return movies ? (
-    <MainContainer>
-      <Swiper Item={Card} items={movies} currentItem={currentMovieId} setCurrentItem={setCurrentMovieId} />
-    </MainContainer>
-  ) : null;
+  return movies ? <Swiper items={movies} currentItem={currentMovieId} setCurrentItem={setCurrentMovieId} /> : null;
 };

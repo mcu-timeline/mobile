@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 export type UserProgress = {
+  __typename: 'UserProgress';
   id: string;
   userId: string;
   activeTimeline: string | null;
