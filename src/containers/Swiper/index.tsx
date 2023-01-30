@@ -1,33 +1,40 @@
-import { Component, ComponentType } from 'react';
+import { Component } from 'react';
 import { Animated, PanResponder, PanResponderInstance } from 'react-native';
-import { SCREEN_WIDTH } from '../../helpers';
 
-type Props<T> = {
+import { Card } from '../../components/Card';
+import { SCREEN_WIDTH } from '../../helpers';
+import { Movie } from '../../types';
+
+type Props = {
   currentItem: string | null;
   setCurrentItem: (id: string) => void;
-  Item: ComponentType<{ item: T | null }>;
-  items: T[];
+  items: Movie[];
 };
 
 type State = {
   currentItemIndex: number;
 };
 
-export class Swiper<T extends { id: string }> extends Component<Props<T>, State> {
+export class Swiper extends Component<Props, State> {
   private panResponder: PanResponderInstance;
   private position: Animated.ValueXY;
   private isHorizontalSwipe: boolean;
+  private disableSwipe: boolean;
 
-  constructor(props: Props<T>) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.id === props.currentItem) : 0,
     };
     this.position = new Animated.ValueXY({ x: 0, y: 0 });
     this.isHorizontalSwipe = false;
+    this.disableSwipe = false;
     this.panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (_, gestureState) => {
-        if (gestureState.dx > 0 || gestureState.dx < 0) {
+        if (this.disableSwipe) {
+          return false;
+        }
+        if (gestureState.dx > 10 || gestureState.dx < -10) {
           this.isHorizontalSwipe = true;
           return true;
         }
@@ -42,24 +49,12 @@ export class Swiper<T extends { id: string }> extends Component<Props<T>, State>
           }
         }
       },
-      onPanResponderRelease: (evt, gestureState) => {
+      onPanResponderRelease: (_, gestureState) => {
         this.isHorizontalSwipe = false;
         if (gestureState.dx > 120 && !this.isFirstItem()) {
-          Animated.spring(this.position, {
-            toValue: { x: SCREEN_WIDTH, y: 0 },
-            useNativeDriver: true,
-          }).start(() => {
-            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex - 1].id);
-            this.position.setValue({ x: 0, y: 0 });
-          });
+          this.moveToPrevItem();
         } else if (gestureState.dx < -120 && !this.isLastItem()) {
-          Animated.spring(this.position, {
-            toValue: { x: -SCREEN_WIDTH, y: 0 },
-            useNativeDriver: true,
-          }).start(() => {
-            this.props.setCurrentItem(this.props.items[this.state.currentItemIndex + 1].id);
-            this.position.setValue({ x: 0, y: 0 });
-          });
+          this.moveToNextItem();
         } else {
           Animated.spring(this.position, {
             toValue: { x: 0, y: 0 },
@@ -71,7 +66,7 @@ export class Swiper<T extends { id: string }> extends Component<Props<T>, State>
     });
   }
 
-  static getDerivedStateFromProps(props: Props<{ id: string }>): State {
+  static getDerivedStateFromProps(props: Props): State {
     return {
       currentItemIndex: props.currentItem ? props.items.findIndex((item) => item.id === props.currentItem) : 0,
     };
@@ -85,8 +80,32 @@ export class Swiper<T extends { id: string }> extends Component<Props<T>, State>
     return this.state.currentItemIndex === this.props.items.length - 1;
   }
 
+  setDisableSwipe = (disable: boolean) => {
+    this.disableSwipe = disable;
+  };
+
+  moveToNextItem = () => {
+    Animated.timing(this.position, {
+      toValue: { x: -SCREEN_WIDTH, y: 0 },
+      useNativeDriver: true,
+    }).start(() => {
+      this.props.setCurrentItem(this.props.items[this.state.currentItemIndex + 1].id);
+      this.position.setValue({ x: 0, y: 0 });
+    });
+  };
+
+  moveToPrevItem = () => {
+    Animated.timing(this.position, {
+      toValue: { x: SCREEN_WIDTH, y: 0 },
+      useNativeDriver: true,
+    }).start(() => {
+      this.props.setCurrentItem(this.props.items[this.state.currentItemIndex - 1].id);
+      this.position.setValue({ x: 0, y: 0 });
+    });
+  };
+
   render() {
-    const { Item, items } = this.props;
+    const { items } = this.props;
     const { currentItemIndex } = this.state;
     return (
       <Animated.View
@@ -101,9 +120,14 @@ export class Swiper<T extends { id: string }> extends Component<Props<T>, State>
           transform: this.position.getTranslateTransform(),
         }}
       >
-        <Item item={items[currentItemIndex - 1] || null} />
-        <Item item={items[currentItemIndex]} />
-        <Item item={items[currentItemIndex + 1] || null} />
+        <Card key={items[currentItemIndex - 1]?.id} item={items[currentItemIndex - 1] || null} />
+        <Card
+          key={items[currentItemIndex].id}
+          item={items[currentItemIndex]}
+          setDisableSwipe={this.setDisableSwipe}
+          moveToNextItem={this.moveToNextItem}
+        />
+        <Card key={items[currentItemIndex + 1]?.id} item={items[currentItemIndex + 1] || null} />
       </Animated.View>
     );
   }
