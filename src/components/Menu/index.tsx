@@ -1,14 +1,13 @@
-import { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FC, useCallback } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { RootStackParamList } from '../../screens/types';
 
 import { Movies } from './Movies';
-import { Stats } from './Stats';
 import { User } from './User';
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+type Props = Pick<NativeStackScreenProps<RootStackParamList, keyof RootStackParamList>, 'navigation' | 'route'>;
 
 const styles = StyleSheet.create({
   menu: {
@@ -21,10 +20,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Menu: FC<Props> = () => (
-  <View style={styles.menu}>
-    <Stats />
-    <Movies />
-    <User />
-  </View>
-);
+export const Menu: FC<Props> = ({ navigation, route }) => {
+  const navigateToMovies = useCallback(() => {
+    navigation.navigate('Home');
+  }, [navigation]);
+
+  const navigateToUser = useCallback(() => {
+    navigation.navigate('User');
+  }, [navigation]);
+
+  return (
+    <View style={styles.menu}>
+      <Pressable onPress={navigateToMovies}>
+        <Movies active={route.name === 'Home'} />
+      </Pressable>
+      <Pressable onPress={navigateToUser}>
+        <User active={route.name === 'User'} />
+      </Pressable>
+    </View>
+  );
+};
