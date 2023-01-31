@@ -36,6 +36,7 @@ export const ProgressContextRemoteProvider: FCC = ({ children }) => {
         },
         optimisticResponse: {
           updateCurrentMovie: {
+            __typename: 'UserProgress',
             id: data.getUserProgress.id,
             userId: data.getUserProgress.userId,
             activeTimeline: data.getUserProgress.activeTimeline,
