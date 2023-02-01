@@ -8,6 +8,7 @@ import { LoginScreen } from './Login';
 import { HomeScreen } from './Home';
 import { LoadingScreen } from './Loading';
 import { TimelinePickerScreen } from './TimelinePicker';
+import { UserScreen } from './User';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -31,6 +32,7 @@ export const Router = () => {
             <Stack.Screen name="Login" component={LoginScreen} />
           </>
         )}
+        <Stack.Screen name="User" component={UserScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

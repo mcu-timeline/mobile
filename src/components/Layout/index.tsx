@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import { FCC } from '../../types';
@@ -28,7 +28,7 @@ export const Layout: FCC<Props> = ({ children, menu }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.main}>{children}</View>
-      {menu ? <View>{menu}</View> : null}
+      {menu}
     </SafeAreaView>
   );
 };
