@@ -4,10 +4,6 @@ import { StatusBar } from 'expo-status-bar';
 
 import { FCC } from '../../types';
 
-type Props = {
-  menu?: ReactElement;
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,12 +19,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Layout: FCC<Props> = ({ children, menu }) => {
+export const Layout: FCC = ({ children }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.main}>{children}</View>
-      {menu}
     </SafeAreaView>
   );
 };
