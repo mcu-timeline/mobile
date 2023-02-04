@@ -49,7 +49,7 @@ export const ProgressContextRemoteProvider: FCC = ({ children }) => {
   );
 
   const setActiveTimeline = useCallback(
-    (timeline: string, callback: () => void) => {
+    (timeline: string, callback?: () => void) => {
       mutateActiveTimeline({
         variables: {
           data: {

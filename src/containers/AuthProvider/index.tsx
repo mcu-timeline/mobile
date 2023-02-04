@@ -59,11 +59,13 @@ export const AuthContextProvider: FCC = ({ children }) => {
     switch (type) {
       case USER.TYPE.LOCAL:
         return {
+          type,
           user: authContext.data,
           isLoading: authContext.isLoading,
         };
       case USER.TYPE.REMOTE:
         return {
+          type,
           user: auth0Context.user,
           isLoading: !auth0Context.user,
         };
@@ -73,7 +75,6 @@ export const AuthContextProvider: FCC = ({ children }) => {
   const context = useMemo(
     () => ({
       ...userData,
-      type,
       login,
       logout,
       refresh,
