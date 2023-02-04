@@ -2,7 +2,7 @@ import { FC, useCallback } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { UserStackParamList } from '../../screens/types';
+import { UserStackParamList } from '../../../screens/types';
 import { Item } from './Item';
 
 type Props = { children: string; navigateTo: keyof UserStackParamList } & Pick<
