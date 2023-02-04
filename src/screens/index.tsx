@@ -1,39 +1,39 @@
+import { FC, useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { useAuth } from '../hooks';
+import { useAuth, useProgress } from '../hooks';
 
 import { RootStackParamList } from './types';
 import { LoginScreen } from './Login';
-import { HomeScreen } from './Home';
 import { LoadingScreen } from './Loading';
 import { TimelinePickerScreen } from './TimelinePicker';
-import { UserScreen } from './User';
+import { AppTabs } from './App';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Router = () => {
   const { isLoading, user } = useAuth();
+  const { isLoading: isProgressLoading, activeTimeline } = useProgress();
 
-  if (isLoading) {
+  const screens = useMemo(() => {
+    switch (true) {
+      case !user:
+        return <Stack.Screen name="Login" component={LoginScreen} />;
+      case !activeTimeline:
+        return <Stack.Screen name="TimelinePicker" component={TimelinePickerScreen} />;
+      default:
+        return <Stack.Screen name="App" component={AppTabs} />;
+    }
+  }, [user, activeTimeline]);
+
+  if (isLoading || isProgressLoading) {
     return <LoadingScreen />;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {user ? (
-          <>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="TimelinePicker" component={TimelinePickerScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </>
-        )}
-        <Stack.Screen name="User" component={UserScreen} />
-      </Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>{screens}</Stack.Navigator>
     </NavigationContainer>
   );
 };
