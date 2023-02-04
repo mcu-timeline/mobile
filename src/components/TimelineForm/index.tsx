@@ -1,9 +1,7 @@
 import { FC, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Button } from '../Button';
-import { RootStackParamList } from '../../screens/types';
 import { useProgress } from '../../hooks';
 
 const styles = StyleSheet.create({
@@ -15,15 +13,14 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = NativeStackScreenProps<RootStackParamList, 'TimelinePicker'>;
-
-export const TimelineForm: FC<Props> = ({ navigation }) => {
+type Props = {
+  onSuccess?: () => void;
+};
+export const TimelineForm: FC<Props> = ({ onSuccess }) => {
   const { setActiveTimeline } = useProgress();
 
   const pickMainTimeline = useCallback(() => {
-    setActiveTimeline('Full', () => {
-      navigation.replace('Home');
-    });
+    setActiveTimeline('Full', onSuccess);
   }, [setActiveTimeline, navigator]);
 
   return (
