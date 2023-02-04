@@ -44,10 +44,8 @@ const styles = {
   }),
 };
 
-export const Button: FC<Props> = ({ children, variant, style, ...props }) => {
-  return (
-    <Pressable {...props} style={[styles.button[variant], style]}>
-      <Text style={styles.text[variant]}>{children}</Text>
-    </Pressable>
-  );
-};
+export const Button: FC<Props> = ({ children, variant, style, ...props }) => (
+  <Pressable {...props} style={[styles.button[variant], style]}>
+    <Text style={styles.text[variant]}>{children}</Text>
+  </Pressable>
+);

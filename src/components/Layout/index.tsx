@@ -19,11 +19,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Layout: FCC = ({ children }) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
-      <View style={styles.main}>{children}</View>
-    </SafeAreaView>
-  );
-};
+export const Layout: FCC = ({ children }) => (
+  <SafeAreaView style={styles.container}>
+    <StatusBar style="light" />
+    <View style={styles.main}>{children}</View>
+  </SafeAreaView>
+);

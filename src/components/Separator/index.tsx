@@ -17,14 +17,12 @@ const styles = StyleSheet.create({
   text: { textAlign: 'center', color: '#ffffff', marginHorizontal: 20 },
 });
 
-export const Separator: FC<Props> = ({ children }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.line} />
-      <View>
-        <Text style={styles.text}>{children}</Text>
-      </View>
-      <View style={styles.line} />
+export const Separator: FC<Props> = ({ children }) => (
+  <View style={styles.container}>
+    <View style={styles.line} />
+    <View>
+      <Text style={styles.text}>{children}</Text>
     </View>
-  );
-};
+    <View style={styles.line} />
+  </View>
+);
