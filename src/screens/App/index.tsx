@@ -37,16 +37,6 @@ export const AppTabs: FC<NativeStackScreenProps<RootStackParamList, 'App'>> = ()
       component={UserScreen}
       options={{
         tabBarIcon: User,
-        headerShown: true,
-        headerTitle: 'Settings',
-        headerStyle: {
-          backgroundColor: '#000000',
-          borderBottomColor: '#393939',
-          borderBottomWidth: 1,
-        },
-        headerTitleStyle: {
-          color: '#ffffff',
-        },
       }}
     />
   </Tab.Navigator>

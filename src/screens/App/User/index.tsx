@@ -13,10 +13,23 @@ import { VersionScreen } from './Version';
 const Stack = createNativeStackNavigator<UserStackParamList>();
 
 export const UserScreen: FC = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Main" component={MainScreen} />
-    <Stack.Screen name="AccountDetails" component={AccountDetailsScreen} />
-    <Stack.Screen name="TimelinePicker" component={TimelinePickerScreen} />
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: true,
+      headerTintColor: '#ffffff',
+      headerShadowVisible: false,
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: '#000000',
+      },
+      headerTitleStyle: {
+        color: '#ffffff',
+      },
+    }}
+  >
+    <Stack.Screen name="Main" component={MainScreen} options={{ headerTitle: 'Settings' }} />
+    <Stack.Screen name="AccountDetails" component={AccountDetailsScreen} options={{ headerTitle: 'Account Details' }} />
+    <Stack.Screen name="TimelinePicker" component={TimelinePickerScreen} options={{ headerTitle: 'Change Timeline' }} />
     <Stack.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} />
     <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
     <Stack.Screen name="Version" component={VersionScreen} />
