@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
     paddingTop: 20,
-    paddingBottom: 10,
+    paddingBottom: 20,
   },
   text: {
     color: '#767676',

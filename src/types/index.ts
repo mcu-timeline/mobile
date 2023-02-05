@@ -21,3 +21,11 @@ type Character = {
   name: string;
   image: string;
 };
+
+export type Timeline = {
+  __typename: 'Timeline';
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+};

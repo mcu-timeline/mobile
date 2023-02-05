@@ -5,8 +5,8 @@ import { useProgress } from '../../hooks';
 import { Movie } from '../../types';
 
 const GET_MOVIES = gql`
-  query ($title: String) {
-    timeline(currentlyWatching: $title) {
+  query ($timeline: String!, $title: String) {
+    timeline(timeline: $timeline, currentlyWatching: $title) {
       id
       title
       duration
@@ -29,9 +29,9 @@ type Response = {
 };
 
 export const MoviesStack = () => {
-  const { currentMovieId, setCurrentMovieId } = useProgress();
+  const { currentMovieId, setCurrentMovieId, activeTimeline } = useProgress();
   const { data, previousData, loading } = useQuery<Response>(GET_MOVIES, {
-    variables: { title: currentMovieId },
+    variables: { timeline: activeTimeline, title: currentMovieId },
   });
 
   if (loading && !previousData) {

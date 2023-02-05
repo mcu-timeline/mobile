@@ -9,3 +9,5 @@ export const USER = {
     REMOTE: 'REMOTE',
   },
 } as const;
+
+export const CDN_URL = 'http://192.168.100.4:8000';
