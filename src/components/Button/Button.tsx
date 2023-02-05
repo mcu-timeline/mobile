@@ -22,11 +22,11 @@ const styles = {
   button: StyleSheet.create({
     primary: {
       ...commonStyles.button,
-      backgroundColor: '#ffffff50',
+      backgroundColor: '#ffffff20',
     },
     secondary: {
       ...commonStyles.button,
-      borderColor: '#ffffff50',
+      borderColor: '#ffffff20',
       borderWidth: 3,
     },
   }),

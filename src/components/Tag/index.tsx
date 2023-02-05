@@ -4,7 +4,7 @@ import { FCC } from '../../types';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff50',
+    backgroundColor: '#ffffff20',
     borderRadius: 20,
     padding: 10,
   },
