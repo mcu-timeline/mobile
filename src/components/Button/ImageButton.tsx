@@ -31,10 +31,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ImageButton: FC<Props> = ({ children, style, imageSource, ...props }) => {
-  return (
-    <Pressable {...props} style={[styles.button, style]}>
-      <Image source={imageSource} style={styles.image} />
-    </Pressable>
-  );
-};
+export const ImageButton: FC<Props> = ({ children, style, imageSource, ...props }) => (
+  <Pressable {...props} style={[styles.button, style]}>
+    <Image source={imageSource} style={styles.image} />
+  </Pressable>
+);

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Layout } from '../../../components/Layout';
-import { UserMenu } from '../../../components/UserMenu';
+import { UserMenu } from '../../../components/Settings/UserMenu';
 import { UserStackParamList } from '../../types';
 
 type Props = NativeStackScreenProps<UserStackParamList, 'Main'>;

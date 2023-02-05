@@ -1,3 +1,8 @@
-import { Text } from 'react-native';
+import { Layout } from '../../../components/Layout';
+import { AccountDetails } from '../../../components/Settings/AccountDetails';
 
-export const AccountDetailsScreen = () => <Text>ACCOUNT DETAILS</Text>;
+export const AccountDetailsScreen = () => (
+  <Layout>
+    <AccountDetails />
+  </Layout>
+);

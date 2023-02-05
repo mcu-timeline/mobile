@@ -2,11 +2,12 @@ import { FC } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { useAuth } from '../../hooks';
-import { UserStackParamList } from '../../screens/types';
+import { useAuth } from '../../../hooks';
+import { USER } from '../../../helpers';
+import { UserStackParamList } from '../../../screens/types';
+import { Label } from '../Label';
+import { Button } from '../Button';
 
-import { Button } from './Button';
-import { Label } from './Label';
 import { NavigationItem } from './NavigationItem';
 import { LinkItem } from './LinkItem';
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 export const UserMenu: FC<Props> = ({ navigation }) => {
-  const { logout } = useAuth();
+  const { logout, type } = useAuth();
 
   return (
     <ScrollView style={styles.screen}>
@@ -34,6 +35,11 @@ export const UserMenu: FC<Props> = ({ navigation }) => {
         <NavigationItem navigation={navigation} navigateTo="TimelinePicker">
           Change Timeline
         </NavigationItem>
+        {type === USER.TYPE.REMOTE ? (
+          <NavigationItem navigation={navigation} navigateTo="Friends">
+            Friends
+          </NavigationItem>
+        ) : null}
         <Label>Help</Label>
         <LinkItem link="https://www.apple.com/app-store/">Leave us a Review</LinkItem>
         <LinkItem link="mailto:<OUR_EMAIL>">Contact Support</LinkItem>

@@ -10,7 +10,7 @@ type ProgressContext = {
   activeTimeline: string | null;
   isLoading: boolean;
   setCurrentMovieId: (id: string) => void;
-  setActiveTimeline: (id: string, callback: () => void) => void;
+  setActiveTimeline: (id: string, callback?: () => void) => void;
 };
 
 export const initialContext: ProgressContext = {
