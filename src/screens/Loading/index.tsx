@@ -1,16 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { FC } from 'react';
+import { Loader } from '../../containers/Loader';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+type Props = {
+  visible: boolean;
+};
 
-export const LoadingScreen = () => (
-  <View style={styles.container}>
-    <Text>Loading</Text>
-  </View>
-);
+export const LoadingScreen: FC<Props> = ({ visible }) => <Loader visible={visible} />;
