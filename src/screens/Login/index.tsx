@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Layout } from '../../components/Layout';
@@ -13,16 +13,14 @@ const styles = StyleSheet.create({
 });
 
 export const LoginScreen = () => (
-  <View style={{ flex: 1 }}>
-    <Layout>
-      <ImageBackground
-        style={styles.backgroundContainer}
-        imageStyle={styles.backgroundImage}
-        source={require('../../assets/images/background.jpg')}
-      />
-      <LinearGradient colors={['transparent', '#000000']} locations={[0, 0.25]} style={styles.gradient} />
-      <Logo style={styles.logo} />
-      <LoginForm />
-    </Layout>
-  </View>
+  <Layout>
+    <ImageBackground
+      style={styles.backgroundContainer}
+      imageStyle={styles.backgroundImage}
+      source={require('../../assets/images/background.jpg')}
+    />
+    <LinearGradient colors={['transparent', '#000000']} locations={[0, 0.25]} style={styles.gradient} />
+    <Logo style={styles.logo} />
+    <LoginForm />
+  </Layout>
 );

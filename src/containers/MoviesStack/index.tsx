@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Swiper } from '../Swiper';
 import { useProgress } from '../../hooks';
 import { Movie } from '../../types';
+import { useWindowDimensions } from 'react-native';
 
 const GET_MOVIES = gql`
   query ($timeline: String!, $title: String) {
@@ -29,6 +30,7 @@ type Response = {
 };
 
 export const MoviesStack = () => {
+  const { width } = useWindowDimensions();
   const { currentMovieId, setCurrentMovieId, activeTimeline } = useProgress();
   const { data, previousData, loading } = useQuery<Response>(GET_MOVIES, {
     variables: { timeline: activeTimeline, title: currentMovieId },
@@ -40,5 +42,7 @@ export const MoviesStack = () => {
 
   const movies = data ? data.timeline : previousData?.timeline;
 
-  return movies ? <Swiper items={movies} currentItem={currentMovieId} setCurrentItem={setCurrentMovieId} /> : null;
+  return movies ? (
+    <Swiper items={movies} currentItem={currentMovieId} setCurrentItem={setCurrentMovieId} screenWidth={width} />
+  ) : null;
 };

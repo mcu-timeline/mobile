@@ -1,19 +1,28 @@
 import { Component } from 'react';
-import { Animated, PanResponder, PanResponderInstance } from 'react-native';
+import { Animated, PanResponder, PanResponderInstance, StyleSheet } from 'react-native';
 
 import { Card } from '../../components/Card';
-import { SCREEN_WIDTH } from '../../helpers';
 import { Movie } from '../../types';
 
 type Props = {
   currentItem: string | null;
   setCurrentItem: (id: string) => void;
   items: Movie[];
+  screenWidth: number;
 };
 
 type State = {
   currentItemIndex: number;
 };
+
+const styles = StyleSheet.create({
+  swiper: {
+    flex: 1,
+    flexDirection: 'row',
+    height: '100%',
+    position: 'absolute',
+  },
+});
 
 export class Swiper extends Component<Props, State> {
   private panResponder: PanResponderInstance;
@@ -86,7 +95,7 @@ export class Swiper extends Component<Props, State> {
 
   moveToNextItem = () => {
     Animated.timing(this.position, {
-      toValue: { x: -SCREEN_WIDTH, y: 0 },
+      toValue: { x: -this.props.screenWidth, y: 0 },
       useNativeDriver: true,
     }).start(() => {
       this.props.setCurrentItem(this.props.items[this.state.currentItemIndex + 1].id);
@@ -96,7 +105,7 @@ export class Swiper extends Component<Props, State> {
 
   moveToPrevItem = () => {
     Animated.timing(this.position, {
-      toValue: { x: SCREEN_WIDTH, y: 0 },
+      toValue: { x: this.props.screenWidth, y: 0 },
       useNativeDriver: true,
     }).start(() => {
       this.props.setCurrentItem(this.props.items[this.state.currentItemIndex - 1].id);
@@ -105,20 +114,19 @@ export class Swiper extends Component<Props, State> {
   };
 
   render() {
-    const { items } = this.props;
+    const { items, screenWidth } = this.props;
     const { currentItemIndex } = this.state;
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          width: SCREEN_WIDTH * 3,
-          height: '100%',
-          position: 'absolute',
-          left: -SCREEN_WIDTH,
-          transform: this.position.getTranslateTransform(),
-        }}
+        style={[
+          styles.swiper,
+          {
+            width: screenWidth * 3,
+            left: -screenWidth,
+            transform: this.position.getTranslateTransform(),
+          },
+        ]}
       >
         <Card key={items[currentItemIndex - 1]?.id} item={items[currentItemIndex - 1] || null} />
         <Card

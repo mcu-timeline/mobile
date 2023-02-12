@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -27,13 +27,12 @@ export const Router = () => {
     }
   }, [user, activeTimeline]);
 
-  if (isLoading || isProgressLoading) {
-    return <LoadingScreen />;
-  }
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>{screens}</Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>{screens}</Stack.Navigator>
+      </NavigationContainer>
+      <LoadingScreen visible={isLoading || isProgressLoading} />
+    </>
   );
 };
